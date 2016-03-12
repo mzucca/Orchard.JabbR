@@ -1,0 +1,110 @@
+﻿@using SquishIt.Framework;
+@using JabbR
+@using JabbR.ViewModels
+@using PagedList
+@model NotificationsViewModel
+@{
+    var notificationsViewModel = Model as NotificationsViewModel;
+}
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>JabbR - notifications</title>
+    @{ 
+        WriteLiteral(Bundle.Css()
+            .Add("~/Themes/UhuraTheme/Styles/bootstrap.min.css")
+            .Add("~/Themes/UhuraTheme/Styles/bootstrap-responsive.min.css")
+            .Add("~/Modules/JabbR/Styles/font-awesome.min.css")
+            .Add("~/Modules/JabbR/Styles/Chat.css")
+            .Add("~/Modules/JabbR/Styles/emoji20.css")
+            .Render("~/Content/JabbR_#.css"));
+    }
+</head>
+<body class="notifications">
+    <section id="page" role="application">
+        <header id="heading" role="heading">
+            <div class="banner" role="banner">
+                <div class="jabbrLogo" id="logo"></div>
+                <h1>evos</h1>
+            </div>
+        </header>
+        <div class="container">
+            <div class="row" style="padding-top: 75px;">
+                @Html.AlertMessages()
+                <div class="row">
+                    <div class="span2">
+                        <span class="notifications-title pull-left">Notifications</span>
+                    </div>
+                    <div class="span2 offset8 pull-right">
+                        <a href="#" class="btn btn-mini pull-right js-mark-all-as-read @(notificationsViewModel.UnreadCount == 0 ? "disabled" : "")" data-action-url="@Url.Content("~/notifications/markallasread")">Mark All as Read</a>
+                    </div>
+                </div>
+                <hr />
+            </div>
+            <div class="tabbable tabs-left">
+                <ul class="nav nav-tabs">
+                    <li class="@(!Model.ShowAll ? "active" : "")">
+                        <a href="@Url.Content("~/JabbR/notifications/Index")">Unread <span id="js-unread-counter" data-unread="@Model.UnreadCount" class="pull-right">@Model.UnreadCount</span></a>
+                    </li>
+                    <li class="@(Model.ShowAll ? "active" : "")">
+                        <a href="@Url.Content("~/JabbR/notifications/Index?all=true")">All Notifications</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    @if (notificationsViewModel.Notifications.Count > 0)
+                    {
+                        <ul id="notifications-container" class="unstyled" data-mode="@(Model.ShowAll ? "all" : "unread")">
+                            @foreach (var notification in notificationsViewModel.Notifications)
+                            {
+                                <li data-notification-id="@notification.NotificationKey" class="notification-item @(!notification.Read ? "notification-unread" : "")">
+                                    @if (!notification.Read)
+                                    {
+                                        <a href="#" title="mark notification as read" class="pull-right js-mark-as-read" data-action-url="@Url.Content("~/notifications/markasread")" data-notification-id="@notification.NotificationKey">
+                                            <i class="icon-large icon-ok-circle"></i>
+                                        </a>
+                                    }
+                                    <blockquote>
+                                        <p class="@(notification.HtmlEncoded ? "" : "linkify")">@notification.Message</p>
+                                        <small>
+                                            <img class="gravatar" src="https://secure.gravatar.com/avatar/@notification.FromUserImage?s=16&amp;d=mm" />
+                                            @notification.FromUserName in <strong><cite>@notification.RoomName</cite></strong> on <span class="time" data-timestamp="@notification.WhenString"></span>
+                                        </small>
+                                    </blockquote>
+                                </li>
+                            }
+                        </ul>
+                        <div id="notifications-pager">
+                            @Html.SimplePager(notificationsViewModel.Notifications, Model.ShowAll ? "?all=true&" : "?")
+                        </div>
+                    }
+                    <p id="no-notifications" class="well well-large" @*@Html.DisplayNoneIf(model => model.Notifications.Count > 0)*@>No unread notifications!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script id="multiline-content-template" type="text/x-jquery-tmpl">
+        <pre class="multiline">${content}</pre>
+    </script>
+    @{
+        WriteLiteral(Bundle.JavaScript()
+            .Add("~/Modules/JabbR/Scripts/jquery-1.9.0.js")
+            .Add("~/Modules/JabbR/Scripts/json2.js")
+            .Add("~/Themes/UhuraTheme/Scripts/bootstrap.js")
+            .Add("~/Modules/JabbR/Scripts/jQuery.tmpl.min.js")
+            .Render("~/Scripts/JabbR1_#.js"));
+    }
+    @{
+        WriteLiteral(Bundle.JavaScript()
+            .Add("~/Modules/JabbR/Scripts/moment.min.js")
+            .Add("~/Modules/JabbR/Scripts/ba-linkify.min.js")
+            .Add("~/Modules/JabbR/Scripts/Markdown.Converter.js")
+            .Add("~/Modules/JabbR/Scripts/jquery.pubsub.js")
+            .Add("~/Modules/JabbR/Scripts/Chat.emoji.js")
+            .Add("~/Modules/JabbR/Scripts/Chat.utility.js")
+            .Add("~/Modules/JabbR/Scripts/notifications.unreadcounter.js")
+            .Add("~/Modules/JabbR/Scripts/notifications.js")
+            .Render("~/Scripts/JabbR2_#.js"));
+    }
+</body>
+</html>

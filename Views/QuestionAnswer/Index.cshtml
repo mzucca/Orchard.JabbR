@@ -1,0 +1,72 @@
+@model JabbR.ViewModels.IndexViewModel<QuestionRecord>
+    @using JabbR.Models;
+    @using JabbR.ViewModels;
+    @{
+        var userIndex = 0;
+
+        Layout.Title = T("Manage Q&A").ToString();
+    }
+
+    @using (Html.BeginFormAntiForgeryPost())
+    {
+        @Html.ValidationSummary()
+        <div class="manage">@Html.ActionLink(T("Add a new Q&A").ToString(), "Create", new { }, new { @class = "button primaryAction" })</div>
+
+        <fieldset class="bulk-actions">
+            <legend></legend>
+            <label for="publishActions">@T("Actions:")</label>
+            <select id="publishActions" name="@Html.NameOf(m => m.Options.BulkAction)">
+                @Html.SelectOption(Model.Options.BulkAction, BulkAction.None, T("Choose action...").ToString())
+                @Html.SelectOption(Model.Options.BulkAction, BulkAction.Delete, T("Delete").ToString())
+            </select>
+            <button type="submit" name="submit.BulkEdit" value="@T("Apply")">@T("Apply")</button>
+        </fieldset>
+        <fieldset class="bulk-actions">
+            <legend></legend>
+            @Html.TextBoxFor(m => m.Options.Search, new { @class = "text" })
+            <label for="sortResults">@T("Sort by:")</label>
+            <select id="sortResults" name="@Html.NameOf(m => m.Options.Order)">
+                @Html.SelectOption(Model.Options.Order, Order.Name, T("Name").ToString())
+                @Html.SelectOption(Model.Options.Order, Order.Description, T("Question").ToString())
+            </select>
+
+            <button type="submit" name="submit.Filter" value="@T("Filter")">@T("Filter")</button>
+        </fieldset>
+        <fieldset>
+            <legend></legend>
+            <table class="items">
+                <thead>
+                    <tr>
+                        <th scope="col">&nbsp;&darr;</th>
+                        <th scope="col">@T("Name")</th>
+                        <th scope="col">@T("Question")</th>
+                        <th scope="col">@T("Actions")</th>
+                    </tr>
+                </thead>
+                @foreach (var entry in Model.Items)
+                {
+                    <tr>
+                        <td>
+                            <input type="hidden" value="@Model.Items[userIndex].Item.Id" name="@Html.NameOf(m => m.Items[userIndex].Item.Id)" />
+                            <input type="checkbox" value="true" name="@Html.NameOf(m => m.Items[userIndex].IsChecked)" />
+                        </td>
+                        <td>
+                            <img class="icon" src="@Href("~/Modules/Orchard.Users/Content/Admin/images/online.gif") " alt="@T("Approved") " title="@T("User is approved") " />
+                            @Html.ActionLink(entry.Item.Name, "Edit", new { entry.Item.Id })
+                        </td>
+                        <td>
+                            @entry.Item.Question
+                        </td>
+                        <td>
+                            @Html.ActionLink(T("Edit").ToString(), "Edit", new { id = entry.Item.Id }) |
+                            @Html.ActionLink(T("Delete").ToString(), "Delete", new { id = entry.Item.Id }, new { itemprop = "RemoveUrl UnsafeUrl" }) |
+                        </td>
+                    </tr>
+                    userIndex++;
+                }
+            </table>
+
+            @Display(Model.Pager)
+
+        </fieldset>
+    }

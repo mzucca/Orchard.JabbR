@@ -1,0 +1,22 @@
+@model JabbR.Models.ChatRoom
+@{ Layout.Title = T("Create Room").ToString(); }
+
+@using (Html.BeginFormAntiForgeryPost("Create")) { 
+    @Html.ValidationSummary() 
+    <fieldset>
+        @Html.LabelFor(m => m.Name, T("Room Name"))
+        @Html.TextBoxFor(m=>m.Name, new { @class = "textMedium" })
+        @Html.ValidationMessageFor(m=>m.Name, "*")
+    </fieldset>
+    <fieldset>
+        @Html.LabelFor(m => m.Topic, T("Topic"))
+        @Html.TextBoxFor(m=>m.Topic, new { @class = "textMedium" })
+        @Html.ValidationMessageFor(m=>m.Topic, "*")
+    </fieldset>
+    <fieldset>
+        @Html.LabelFor(m => m.Welcome, T("Welcome"))
+        @Html.TextBoxFor(m=>m.Welcome, new { @class = "textMedium" })
+        @Html.ValidationMessageFor(m=>m.Welcome, "*")
+    </fieldset>
+    <button type="submit" name="create" value="@T("Apply")">@T("Apply")</button>
+}

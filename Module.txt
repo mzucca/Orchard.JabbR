@@ -1,0 +1,8 @@
+﻿Name: JabbR
+AntiForgery: enabled
+Author: The Genoavalley Team
+Website: http://www.genoavalley.net
+Category: JabbR
+Version: 1.0
+OrchardVersion: 1.8
+Description: A module to create chat rooms

@@ -1,0 +1,33 @@
+﻿<Placement>
+  <!-- Customize where the shapes are rendered -->
+
+  <!-- 
+  <Place Parts_Blogs_BlogArchives="Content:before"/>
+  <Place Parts_Blogs_RecentBlogPosts="Content:after"/>
+  <Match ContentType="Blog">
+    <Match DisplayType="Summary">
+      <Place Parts_Blogs_Blog_Description="Content:before"
+             Parts_Blogs_Blog_BlogPostCount="Meta:3"/>
+    </Match>
+  </Match>
+  <Match Path="/About">
+    <Place Parts_Common_Metadata="-"/>
+  </Match>
+-->
+  <Place Parts_ChatUser="Content:before"/>
+  <Place Parts_ChatUser_Edit="Content:before"/>
+  <Place Parts_ChatDepartment="Content:before"/>
+  <Place Parts_ChatDepartment_Edit="Content:before"/>
+  <Place Parts_ChatRoom="Content:before"/>
+  <Place Parts_ChatRoom_Edit="Content:before"/>
+  <Place Parts_ChatSkill="Content:before"/>
+  <Place Parts_ChatSkill_Edit="Content:before"/>
+  <Place Parts_ChatClient="Content:before"/>
+  <Place Parts_ChatClient_Edit="Content:before"/>
+  <Place Parts_Engagement_Display="Content:6"/>
+  <Place Parts_OForm_Edit="Content:3"/>
+  <Place Parts_OFormSettings_Edit="Content:10"/>
+  <Match ContentType="Engagement">
+    <Place Content_SaveButton="Sidebar:23;Alternate=Content_SaveButton__OForm"/>
+  </Match>
+</Placement>

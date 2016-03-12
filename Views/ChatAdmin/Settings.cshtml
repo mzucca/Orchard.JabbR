@@ -1,0 +1,52 @@
+﻿@model JabbR.Services.ApplicationSettings
+
+<h1>@Html.TitleForPage(T("Manage Chat Settings").ToString())</h1>
+
+@using(Html.BeginFormAntiForgeryPost()) {
+	@Html.ValidationSummary()
+
+	<fieldset>
+    <div>
+        @Html.EditorFor(m => m.AllowRoomCreation)
+        <label class="forcheckbox" for="@Html.FieldIdFor( m => m.AllowRoomCreation)">@T("Allow Room Creation")</label>
+        <span class="hint">@T("This will allow room creation.")</span>
+    </div>
+    <div>
+        <div class="control-group">
+            <label class="control-label" for="maxFileUploadBytes">Max File Upload Size (Bytes)</label>
+            <div class="controls">
+                <input type="text" name="maxFileUploadBytes" class="input-xlarge" value="@Model.MaxFileUploadBytes" placeholder="Max File Upload Size (Bytes)"/>
+            </div>
+            <label class="control-label" for="MessageLength">Max Message Length (Bytes)</label>
+            <div class="controls">
+                <input type="text" name="maxMessageLength" class="input-xlarge" value="@Model.MaxMessageLength" placeholder="Max Message Length (Bytes)" />
+            </div>
+        </div>
+    </div>
+    <div>
+        <div class="control-group">
+            <label class="control-label" for="googleAnalytics">Google Analytics ID</label>
+            <div class="controls">
+                <input type="text" name="googleAnalytics" class="input-xlarge" value="@Model.GoogleAnalyticsId" placeholder="Google Analytics ID" />
+            </div>
+        </div>
+    </div>
+    <div>
+      @Html.EditorFor(m => m.EnableAutomaticAnswering)
+      <label class="forcheckbox" for="@Html.FieldIdFor(m => m.EnableAutomaticAnswering)">@T("Enable Automatic Answering")</label>
+      <span class="hint">@T("This try to find an answer from our knowledge base.")</span>
+    </div>
+    <div data-controllerid="@Html.FieldIdFor(m => m.EnableAutomaticAnswering)">
+        <label for="@Html.FieldIdFor(m => m.RequiredAnswerAccuracy)">@T("Answer Accuracy")</label>
+        @Html.TextBoxFor(m => m.RequiredAnswerAccuracy, new { @class = "large text", rows = "15" })
+        @Html.ValidationMessage("Url", "*")
+        <span class="hint">@T("Set the required accuracy for automatic answer.")</span>
+        <label for="@Html.FieldIdFor(m => m.SendAnswerAs)">@T("Send Answer As")</label>
+        @Html.TextBoxFor(m => m.SendAnswerAs, new { @class = "large text", rows = "15" })
+        @Html.ValidationMessage("Url", "*")
+        <span class="hint">@T("Set the user who will send automatic answer.")</span>
+    </div>
+	</fieldset>
+	
+	<input class="button" type="submit" value="@T("Save")" />
+}

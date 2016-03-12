@@ -1,0 +1,117 @@
+﻿@using JabbR
+@using JabbR.ViewModels
+@model UserViewModel
+
+@{
+    var userModel = Model;
+    var gravatar = String.Format("https://secure.gravatar.com/avatar/{0}?s=48&d=mm", userModel.Hash);
+   // var passwordUrl = userModel.HasPassword ? Url.Content("~/account/changepassword") : Url.Content("~/account/newpassword");
+}
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>JabbR - account</title>
+    <link href="@Url.Content("~/Themes/UhuraTheme/Styles/bootstrap.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Themes/UhuraTheme/Styles/bootstrap-responsive.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Modules/JabbR/Styles/Chat.css")" rel="stylesheet" />
+</head>
+<body class="user-profile">
+    <section id="page" role="application">
+        <header id="heading" role="heading">
+            <div class="banner" role="banner">
+                <h1>Jabb</h1>
+                <div class="jabbrLogo" id="logo"></div>
+            </div>
+            <div style="clear: both"></div>
+        </header>
+        <div class="container">
+            <div class="row" style="padding-top: 75px;">
+                @Html.AlertMessages()
+                <div class="row">
+                    <div class="span12">
+                        <div class="user-details">
+                            <img class="gravatar" src="@gravatar" />
+                            <span class="name">@userModel.Name</span>
+                        </div>
+                        <hr />
+                    </div>
+                </div>
+                <div class="tabbable tabs-left">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#profile" data-toggle="tab">Profile</a></li>
+                        <li><a href="#changePassword" data-toggle="tab">Password</a></li>
+@*                        @if (userModel.SocialDetails.ConfiguredProviders.Any())
+                        {
+                            <li><a href="#identityProviders" data-toggle="tab">Identity Providers</a></li>
+                        }*@
+                    </ul>
+                    <div class="tab-content">
+                        <div class="account-details tab-pane active" id="profile">
+                            <form class="form-horizontal">
+                                <div class="control-group">
+                                    <label class="control-label" for="note">Note</label>
+                                    <div class="controls">
+                                        <label class="control-label label-align-left">@(userModel.Note ?? "-")</label>
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label class="control-label" for="country">Country</label>
+                                    <div class="controls">
+                                        <label class="control-label label-align-left">@(userModel.Country ?? "-") <span class="flag flag-@userModel.Flag"></span></label>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="account-details tab-pane hide" id="changePassword">
+                            <form class="form-horizontal" action="@Url.Content("~/JabbR/account/changepassword")" method="POST">
+                                @Html.ValidationSummary()
+                                <div class="control-group">
+                                    <label class="control-label" for="username">@T("Current Password").Text</label>
+                                    <div class="controls">
+                                        @Html.TextBox("password", "input-xlarge", @T("Current Password").Text)
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label class="control-label" for="password">New Password</label>
+                                    <div class="controls">
+                                        @Html.TextBox("newPassword", "input-xlarge", "New Password")
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label class="control-label" for="confirmUsername">@T("Confirm Password").Text</label>
+                                    <div class="controls">
+                                        @Html.TextBox("confirmPassword", "input-xlarge", "Confirm Password")
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <div class="controls">
+                                        <input type="submit" class="btn" value="@T("Change Password").Text" />
+                                    </div>
+                                </div>
+                                @Html.AntiForgeryToken()
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script src="@Url.Content("~/Modules/JabbR/Scripts/jquery-1.9.0.js")"></script>
+    <script src="@Url.Content("~/Themes/UhuraTheme/Scripts/bootstrap.js")"></script>
+    <script type="text/javascript">
+        (function ($) {
+            // set the selected tab based on the hash
+            var currentSection = document.location.hash || "#profile";
+            $('a[href="' + currentSection + '"]').tab('show');
+
+            // always set the hash when we change tabs
+            $('a[data-toggle="tab"]').on('shown', function (e) {
+                document.location.hash = e.target.hash;
+            });
+
+            // make sure errors look pretty and bootstrap-y
+            $('input.error').closest('.control-group').addClass('error');
+        }(jQuery));
+    </script>
+</body>
+</html>
