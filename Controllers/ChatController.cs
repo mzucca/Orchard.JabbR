@@ -130,6 +130,8 @@ namespace JabbR.Controllers
                 IsAdmin = user.IsAdmin,
                 ClientLanguageResources = BuildClientResources()
             };
+            if (Services.Authorizer.Authorize(Orchard.Security.StandardPermissions.AccessAdminPanel))
+                viewModel.IsAdmin = true;
 
 			//// TODO autenticazione
 			//var owinContext = new OwinContext();
@@ -334,7 +336,7 @@ namespace JabbR.Controllers
             }
         }
 
-        private static string BuildClientResources()
+        internal static string BuildClientResources()
         {
             var resourcesToEmbed = new string[]
             {

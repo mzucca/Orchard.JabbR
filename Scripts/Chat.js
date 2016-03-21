@@ -63,13 +63,13 @@
     }
 
     function performLogout() {
-        var d = $.Deferred();
-        $.post('account/logout', {}).done(function () {
-            d.resolveWith(null);
-            document.location = document.location.pathname;
-        });
+        //var d = $.Deferred();
+        //$.post('users/account/logoff', {}).done(function () {
+        //    d.resolveWith(null);
+        //    document.location = document.location.pathname;
+        //});
 
-        return d.promise();
+        //return d.promise();
     }
 
     function logout() {

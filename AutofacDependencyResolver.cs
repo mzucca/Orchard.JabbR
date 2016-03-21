@@ -59,7 +59,14 @@ namespace JabbR
         /// <returns>The single instance if resolved; otherwise, <c>null</c>.</returns>
         public override object GetService(Type serviceType)
         {
-            return _lifetimeScope.ResolveOptional(serviceType);
+            object service = null;
+            if (_lifetimeScope.TryResolve(serviceType, out service))
+                return service;
+            else
+            {
+                Logger.Error("Cannot resolve service:" + serviceType.Name);
+                return null;
+            }
         }
 
         /// <summary>

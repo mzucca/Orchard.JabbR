@@ -15,20 +15,21 @@
     <link href="@Url.Content("~/Modules/JabbR/Styles/images/logo32.png")" rel="icon" type="image/png" sizes="32x32">
     <link href="@Url.Content("~/Modules/JabbR/Styles/images/logo64.png")" rel="icon" type="image/png" sizes="64x64">
     <link href="@Url.Content("~/favicon.ico")" rel="shortcut icon" type="image/x-icon" sizes="16x16">
-    @{ 
+
+    @{
         WriteLiteral(Bundle.Css().ForceDebugIf(() => Model.DebugMode)
-            .Add("~/Modules/JabbR/Styles/bootstrap.min.css")
-            .Add("~/Modules/JabbR/Styles/font-awesome.min.css")
-            .Add("~/Modules/JabbR/Styles/themes/default/Chat.css")
-            .Add("~/Modules/JabbR/Styles/themes/default/Chat.nuget.css")
-            .Add("~/Modules/JabbR/Styles/themes/default/Chat.bbcnews.css")
-            .Add("~/Modules/JabbR/Styles/themes/default/Chat.githubissues.css")
-            .Add("~/Modules/JabbR/Styles/themes/default/Chat.dictionary.css")
-            .Add("~/Modules/JabbR/Styles/Highlight/github.css")
-            .Add("~/Modules/JabbR/Styles/KeyTips.css")
-            .Add("~/Modules/JabbR/Styles/emoji20.css")
-            .Render("~/Modules/JabbR/Styles/JabbR_#.css"));
-   }
+        .Add("~/Modules/JabbR/Styles/bootstrap.min.css")
+        .Add("~/Modules/JabbR/Styles/font-awesome.min.css")
+        .Add("~/Modules/JabbR/Styles/themes/default/Chat.css")
+        .Add("~/Modules/JabbR/Styles/themes/default/Chat.nuget.css")
+        .Add("~/Modules/JabbR/Styles/themes/default/Chat.bbcnews.css")
+        .Add("~/Modules/JabbR/Styles/themes/default/Chat.githubissues.css")
+        .Add("~/Modules/JabbR/Styles/themes/default/Chat.dictionary.css")
+        .Add("~/Modules/JabbR/Styles/Highlight/github.css")
+        .Add("~/Modules/JabbR/Styles/KeyTips.css")
+        .Add("~/Modules/JabbR/Styles/emoji20.css")
+        .Render("~/Modules/JabbR/Styles/JabbR_#.css"));
+    }
 
     @if (!String.IsNullOrEmpty(Model.GoogleAnalytics))
     {
@@ -371,13 +372,13 @@
                 </div>
                     <ul class="nav navbar-nav">
                         <li><a id="notifications" class="" title="@LanguageResources.Client_Notifications" href="@Url.Content("~/notifications")" target="_blank"><i class="fa fa-comments"></i><span id="notification-unread-count"></span></a></li>
-                        <li><a class="" title="@LanguageResources.Client_AccountSettings" href="@Url.Content("~/account")" target="_blank"><i class="fa fa-user"></i></a></li>
+                        <li><a class="" title="@LanguageResources.Client_AccountSettings" href="@Url.Content("~/Admin/Users")" target="_blank"><i class="fa fa-user"></i></a></li>
                             @if (Model.IsAdmin)
                             {
-                            <li><a class="" title="@LanguageResources.Client_JabbrSettings" href="@Url.Content("~/administration")" target="_blank"><i class="fa fa-cog"></i></a></li>
+                            <li><a class="" title="@LanguageResources.Client_JabbrSettings" href="@Url.Content("~/JabbR/ChatAdmin/Settings")" target="_blank"><i class="fa fa-cog"></i></a></li>
                             }
                         <li><a class="help " aria-haspopup="true" title="@LanguageResources.Client_DisplayHelp"><i class="fa fa-question-circle"></i></a></li>
-                        <li><a class="logout " title="@LanguageResources.Client_SignOut"><i class="fa fa-sign-out"></i></a></li>
+                        <li><a class="logout " title="@LanguageResources.Client_SignOut"  href="@Url.Content("~/Users/Account/LogOff?ReturnUrl="+Url.Content("~"))"><i class="fa fa-sign-out"></i></a></li>
                         </ul>
                 </nav>
                     </div>
